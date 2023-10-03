@@ -2,6 +2,7 @@ package com.fullana.eljuegodelcerdo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,13 +17,13 @@ public class MainActivity extends AppCompatActivity {
     private int player1TotalScore;
     private int player2TotalScore;
     private int playerTurnTotal;
+
     private Button roll;
-    private Button hold;
+    private Button hold ,restart;
     private TextView player1Total;
     private TextView player2Total;
     private TextView currentPlayer;
     private TextView turnTotal;
-    private TextView winner;
     private ImageView dice2;
     private TextView turnTotalTag;
     private boolean turno1 = true;
@@ -88,38 +89,41 @@ public class MainActivity extends AppCompatActivity {
                     turnTotal.setText(String.valueOf(playerTurnTotal));
                     //Check if any player won!
                     if (player1TotalScore >= 50) {
-                        dice2.setVisibility(View.GONE);
-                        turnTotal.setVisibility(View.GONE);
-                        turnTotalTag.setVisibility(View.GONE);
-                        roll.setVisibility(View.GONE);
-                        hold.setVisibility((View.GONE));
-                        winner.setVisibility(View.VISIBLE);
-                        currentPlayer.setText("Jugador 1");
-                        Toast.makeText(MainActivity.this,"Felicitaciones Jugador 1, Ganaste!",Toast.LENGTH_SHORT).show();
+                        someoneWin("Jugador 1");
                     } else if (player2TotalScore >= 50) {
-                        dice2.setVisibility(View.GONE);
-                        turnTotal.setVisibility(View.GONE);
-                        turnTotalTag.setVisibility(View.GONE);
-                        roll.setVisibility(View.GONE);
-                        hold.setVisibility((View.GONE));
-                        winner.setVisibility(View.VISIBLE);
-                        currentPlayer.setText("Jugador 2");
-                        Toast.makeText(MainActivity.this,"Felicitaciones Jugador 2, Ganaste!",Toast.LENGTH_SHORT).show();
+                        someoneWin("Jugador 2");
                     }
+
                 }
+            });
+            restart.setOnClickListener((r) -> {
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
             });
         }
 
+    private void someoneWin(String s) {
+        dice2.setVisibility(View.GONE);
+        turnTotal.setVisibility(View.GONE);
+        turnTotalTag.setVisibility(View.GONE);
+        roll.setVisibility(View.GONE);
+        hold.setVisibility((View.GONE));
+        restart.setVisibility(View.VISIBLE);
+        Toast.makeText(MainActivity.this,"Felicitaciones "+s+", Ganaste!",Toast.LENGTH_SHORT).show();
+    }
+
     public void inicializa() {
-        roll = (Button) findViewById(R.id.rolldice);
-        hold = (Button) findViewById(R.id.Guardar);
+        roll =  findViewById(R.id.rolldice2);
+        hold =  findViewById(R.id.Guardar);
         player1Total = findViewById(R.id.player1Total);
         player2Total = findViewById(R.id.player2Total);
         currentPlayer = findViewById(R.id.currentPlayer);
         turnTotal = findViewById(R.id.turnTotal);
-        winner = findViewById(R.id.winner);
         dice2 = findViewById(R.id.dice2);
-        turnTotalTag = (TextView) findViewById(R.id.textView11);
+        restart = findViewById(R.id.restart);
+        turnTotalTag = findViewById(R.id.textView11);
+
         playerTurn = "Jugador 1";
         player1TotalScore = 0;
         player2TotalScore = 0;
