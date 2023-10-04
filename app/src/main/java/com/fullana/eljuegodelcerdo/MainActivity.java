@@ -97,9 +97,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             restart.setOnClickListener((r) -> {
-                Intent intent = getIntent();
-                finish();
-                startActivity(intent);
+                new Thread (() ->{
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
+                }).start();
             });
         }
 
